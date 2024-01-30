@@ -6,17 +6,32 @@ import { Link, useParams } from "react-router-dom";
 import { getRelatedVideos, getVideo } from "../../utils/yt-api";
 import Videos from "./Videos";
 
+import { Blocks } from "react-loader-spinner";
+
 const VideoDetails = () => {
   const { id } = useParams();
   const [videoDetails, setVideoDetails] = useState(null);
   const [relatedVideos, setRelatedVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getVideo(id).then((data) => setVideoDetails(data.items[0]));
-    getRelatedVideos(id).then((data) => setRelatedVideos(data.items));
+    setLoading(true);
+    const promise1 = getVideo(id)
+      .then((data) => {
+        setVideoDetails(data.items[0]);
+        return data;
+      })
+      .then((data) => {
+        console.log("=====", data);
+        getRelatedVideos(data.items[0].snippet.categoryId).then((inner_data) =>
+          setRelatedVideos(inner_data.items)
+        );
+      });
+
+    promise1.then(() => setLoading(false)).catch((err) => setLoading(false));
   }, []);
   console.log(videoDetails);
-  if (videoDetails === null) return "Loading...";
+  if (videoDetails === null) return <Blocks color="#FF0000" />;
 
   const { snippet, statistics } = videoDetails;
   return (
@@ -24,17 +39,37 @@ const VideoDetails = () => {
       <Stack sx={{ flexDirection: { md: "row", sm: "column" } }}>
         <Stack sx={{ flexDirection: { md: "row", sm: "column" } }}>
           <Box sx={{ flex: 2, width: "100%", position: "sticky", top: "0" }}>
-            <ReactPlayer
-              url={`https://www.youtube.com/watch?v=${id}`}
-              controls
-              className="react-player"
-            />
-            <Box sx={{ px: "1.3rem", py: "0.9rem" }}>
-              <Typography mb={"5px"} variant="h6">
+            <div style={{ borderRadius: "2rem", marginRight: "2rem" }}>
+              <ReactPlayer
+                url={`https://www.youtube.com/watch?v=${id}`}
+                controls
+                className="react-player"
+              />
+            </div>
+
+            <Box
+              sx={{
+                px: "1.3rem",
+                py: "0.9rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "7px",
+              }}
+            >
+              <Typography color={"#EEE"} mb={"5px"} variant="h6">
                 {snippet?.title}
               </Typography>
-              <Typography color={"gray"}>{snippet?.description}</Typography>
+
+              <Typography
+                height={"70px"}
+                overflow={"hidden"}
+                textOverflow={"ellipsis"}
+                color={"gray"}
+              >
+                {snippet?.description}
+              </Typography>
             </Box>
+
             <Stack
               direction="row"
               justifyContent="space-between"

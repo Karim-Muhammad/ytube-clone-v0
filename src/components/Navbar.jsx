@@ -1,18 +1,28 @@
-import { Stack } from '@mui/material'
-import { Link } from 'react-router-dom'
-import SearchBar from './SearchBar'
-import {logo} from './../utils/constants';
+import { Stack, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
+import SearchBar from "./SearchBar";
+import { logo } from "./../utils/constants";
 
 const Navbar = () => {
   return (
-    <Stack direction='row' justifyContent={'space-between'}>
-        <Link to='/'>
-            <img style={{marginLeft: '1rem'}} src={logo} alt='logo' aria-label="logo" height='45'/>
-        </Link>
+    <Stack direction="row" py={"10px"} justifyContent={"space-between"}>
+      <Link to="/">
+        <Stack direction={"row"} alignItems={"center"} gap={"7px"}>
+          <img
+            style={{ marginLeft: "1rem" }}
+            src={logo}
+            alt="logo"
+            aria-label="logo"
+            height="45"
+          />
 
-        <SearchBar />
+          <Typography color={"#EEE"}>Snaptube</Typography>
+        </Stack>
+      </Link>
+
+      <SearchBar />
     </Stack>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
