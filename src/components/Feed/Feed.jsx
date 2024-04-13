@@ -78,10 +78,16 @@ const Feed = () => {
         </Typography>
 
         {loading && (
-          <Box display="flex" alignItems={"center"} justifyContent={"center"}>
+          <Box
+            height={"40vh"}
+            display="flex"
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
             <Blocks color="#AE2019" />
           </Box>
         )}
+
         {!loading && <Videos videos={videos} />}
       </Box>
     </Stack>

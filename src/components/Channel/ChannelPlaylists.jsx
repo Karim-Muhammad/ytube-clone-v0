@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getPlaylist } from "../../utils/yt-api";
@@ -18,8 +18,10 @@ const ChannelPlaylists = (props) => {
 
     getPlaylist(channelId)
       .then((data) => {
-        setData(data);
-        setLoading(false);
+        setTimeout(() => {
+          setData(data);
+          setLoading(false);
+        }, 1000);
       })
       .catch((err) => {
         setLoading(false);
@@ -35,7 +37,20 @@ const ChannelPlaylists = (props) => {
       alignItems="start"
       gap="5px"
     >
-      {loading && <Blocks />}
+      {loading && (
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "50vh",
+          }}
+        >
+          <Blocks type="ThreeDots" color="#00BFFF" height={100} width={100} />
+        </Box>
+      )}
+
       {!loading &&
         data?.map((playlist) => (
           <Playlist key={playlist?.id?.playlistId} playlist={playlist} />

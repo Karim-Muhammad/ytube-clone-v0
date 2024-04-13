@@ -10,13 +10,14 @@ const Channel = () => {
   const [channelDetails, setChannelDetails] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log("Channel", id);
   useEffect(() => {
     setLoading(true);
     getChannel(id)
       .then((data) => {
         setLoading(false);
         setChannelDetails(data);
+        // Get Background Thumbail of Channel);
+        // console.log("Background ", data);
       })
       .catch((err) => {
         setLoading(false);
@@ -29,7 +30,7 @@ const Channel = () => {
         <div
           style={{
             background:
-              "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(101,9,121,1) 35%, rgba(0,212,255,1) 100%)",
+              "linear-gradient(90deg, rgba(200,200,200,0.1) 0%, rgba(244,9,121,1) 35%, rgba(0,212,255,1) 100%)",
             height: "300px",
             zIndex: 10,
           }}
@@ -38,7 +39,18 @@ const Channel = () => {
 
       <ChannelCard channel={channelDetails} />
 
-      {loading && <Blocks />}
+      {loading && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "50vh",
+          }}
+        >
+          <Blocks type="ThreeDots" color="#00BFFF" height={100} width={100} />
+        </Box>
+      )}
       {!loading && <Outlet />}
     </Box>
   );

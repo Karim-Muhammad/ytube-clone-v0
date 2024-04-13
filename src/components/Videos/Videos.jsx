@@ -10,11 +10,22 @@ const Videos = ({ videos }) => {
   // });
 
   return (
-    <Stack direction="row" flexWrap="wrap" gap="9px">
+    <Stack
+      direction="row"
+      flexWrap="wrap"
+      // gap={"calc(6% / 7)"}
+      gap={"0.3rem"}
+      width={{ xs: "100%", sm: "95%" }}
+      mx={"auto"}
+    >
       {videos?.map((one) => (
         <Box
-          flexBasis={{ xs: "240px", sm: "320px", md: "350px" }}
+          flexBasis={{ xs: "240px", sm: "300px", md: "320px", lg: "350px" }}
+          // minWidth={{ xs: "240px", sm: "300px", md: "320px", lg: "350px" }}
+          height={"auto"}
           display={"flex"}
+          alignItems={"start"}
+          sx={{ display: "flex" }}
           justifySelf={"center"}
           justifyContent={"center"}
           flexGrow="1"
